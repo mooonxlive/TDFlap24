@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Festival Schedule - Clockenflap 2024</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #1a1a1a;
+            color: #000;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #333;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .clock {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .date-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 0 20px;
+        }
+
+        .date-btn {
+            background: #333;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .date-btn.active {
+            background: #666;
+        }
+
+        .schedule-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .day-schedule {
+            display: none;
+        }
+
+        .day-schedule.active {
+            display: block;
+        }
+
+        .stage-section {
+            margin-bottom: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .stage-header {
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        /* Stage-specific colors matching screenshots */
+        .stage-section[data-stage="Harbourflap Stage"] {
+            background: #FFB399;
+        }
+
+        .stage-section[data-stage="Hang Seng Stage"] {
+            background: #FFB3C6;
+        }
+
+        .stage-section[data-stage="Park Stage"] {
+            background: #B3FFB3;
+        }
+
+        .stage-section[data-stage="Electriq Stage"] {
+            background: #B3E6FF;
+        }
+
+        .stage-section[data-stage="Robot Stage"] {
+            background: #E6B3FF;
+        }
+
+        .stage-section[data-stage="Topper Stage"] {
+            background: #FFE6B3;
+        }
+
+        .stage-content {
+            display: none;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .stage-content.active {
+            display: block;
+        }
+
+        .performance {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            align-items: center;
+        }
+
+        .performance:last-child {
+            border-bottom: none;
+        }
+
+        .time {
+            font-weight: bold;
+            min-width: 120px;
+        }
+
+        .artist {
+            flex-grow: 1;
+            padding: 0 15px;
+        }
+
+        .genre {
+            font-size: 0.9em;
+            color: #666;
+            display: block;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .date-navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .performance {
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+            }
+
+            .time {
+                min-width: auto;
+            }
+
+            .artist {
+                padding: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="#" class="back-link">← Back to Home</a>
+            <div class="clock" id="clock">00:00:00</div>
+        </div>
+    </header>
+
+    <div class="date-navigation">
+        <button class="date-btn" data-day="friday">Friday, Nov 29</button>
+        <button class="date-btn" data-day="saturday">Saturday, Nov 30</button>
+        <button class="date-btn active" data-day="sunday">Sunday, Dec 1</button>
+    </div>
+
+    <div class="schedule-container">
+        <div class="day-schedule" id="friday"></div>
+        <div class="day-schedule" id="saturday"></div>
+        <div class="day-schedule active" id="sunday"></div>
+    </div>
+
+    <script>
+        const scheduleData = {
+            friday: {
+                "Harbourflap Stage": [
+                    { time: "18:00-18:45", artist: "王雙駿 AND THE HATS ON BAND FT. 柳應廷", genre: "Pop" },
+                    { time: "19:30-20:30", artist: "PORTER ROBINSON", genre: "Electronic" },
+                    { time: "21:30-22:45", artist: "AIR", genre: "Electronic" }
+                ],
+                "Hang Seng Stage": [
+                    { time: "18:15-19:00", artist: "MOTHER MOTHER", genre: "Indie Rock" },
+                    { time: "19:45-20:45", artist: "DECA JOINS", genre: "Psy-indie" },
+                    { time: "21:45-22:30", artist: "CREEPY NUTS", genre: "Hip-hop" }
+                ],
+                "Park Stage": [
+                    { time: "17:30-18:15", artist: "BIASCUT", genre: "Strokes indie" },
+                    { time: "18:45-19:30", artist: "BUBBLE TEA & CIGARETTES", genre: "Alternative" },
+                    { time: "20:15-21:00", artist: "HIPERSON 海朋森", genre: "Post-punk" },
+                    { time: "21:45-22:45", artist: "THE BLACK SKIRTS", genre: "Indie Rock" }
+                ],
+                "Electriq Stage": [
+                    { time: "18:00-19:15", artist: "ROMAIN FX", genre: "Electronic" },
+                    { time: "19:30-21:00", artist: "MR. HO", genre: "Dance" },
+                    { time: "21:00-22:30", artist: "A-TRAK", genre: "Electronic" }
+                ],
+                "Robot Stage": [
+                    { time: "17:00-18:00", artist: "TASTE OF BLUE", genre: "Electronic" },
+                    { time: "18:00-19:30", artist: "ANGRY CHILD PRESENTS RUSSELL DOCTROVE & VISAAL", genre: "Electronic" },
+                    { time: "19:30-21:00", artist: "AFTER DARK SESSIONS: SIMTUB B2B BKYND", genre: "Electronic" },
+                    { time: "21:00-22:30", artist: "DAN-NEO & KONNECTION", genre: "Electronic" }
+                ],
+                "Topper Stage": [
+                    { time: "17:00-18:00", artist: "CASPR (SOUNDWAVES HK)", genre: "Electronic" },
+                    { time: "18:45-19:30", artist: "DIAMOND", genre: "Electronic" },
+                    { time: "20:30-21:30", artist: "ADRIANNA", genre: "Electronic" }
+                ]
+            },
+            saturday: {
+                "Harbourflap Stage": [
+                    { time: "13:45-14:30", artist: "CLAVE", genre: "Rock" },
+                    { time: "15:15-16:00", artist: "R.O.O.T", genre: "Rock" },
+                    { time: "16:45-17:30", artist: "SAKURAZAKA46 櫻坂46", genre: "J-pop" },
+                    { time: "18:15-19:00", artist: "BANKS", genre: "Alternative" },
+                    { time: "20:00-21:00", artist: "ST. VINCENT", genre: "Alt Rock" },
+                    { time: "21:45-22:45", artist: "CENTRAL CEE", genre: "Hip-hop" }
+                ],
+                "Hang Seng Stage": [
+                    { time: "13:00-13:45", artist: "ZAYLA SISWOJO", genre: "Pop" },
+                    { time: "14:30-15:15", artist: "MEMI", genre: "Pop" },
+                    { time: "16:00-16:45", artist: "TURTLE ISLAND", genre: "Rock" },
+                    { time: "17:30-18:15", artist: "FUJI BLUE", genre: "Bedroom-FI" },
+                    { time: "19:15-20:15", artist: "SERRINI", genre: "Cantopop" },
+                    { time: "21:00-22:30", artist: "SUEDE", genre: "Rock" }
+                ],
+                "Park Stage": [
+                    { time: "12:30-13:15", artist: "WANTAMNAM 搵添南", genre: "Rock" },
+                    { time: "14:00-14:45", artist: "SALTY CHICK", genre: "Rock" },
+                    { time: "15:30-16:15", artist: "MUI ZYU", genre: "Alternative" },
+                    { time: "17:00-17:45", artist: "FAT DOG", genre: "Rock" },
+                    { time: "18:30-19:15", artist: "CODY·LEE (李)", genre: "Pop" },
+                    { time: "20:00-20:45", artist: "LAST DINOSAURS", genre: "Indie Rock" },
+                    { time: "21:45-22:45", artist: "LUCID EXPRESS", genre: "Shoegaze" }
+                ],
+                "Electriq Stage": [
+                    { time: "17:00-18:15", artist: "MREDROLLO", genre: "Electronic" },
+                    { time: "18:15-19:30", artist: "CRIS PER", genre: "Dance" },
+                    { time: "19:30-21:00", artist: "SIMONE", genre: "Dance/Techno" },
+                    { time: "21:00-22:30", artist: "PARTIBOI69", genre: "Electronic" }
+                ],
+                "Robot Stage": [
+                    { time: "17:45-19:30", artist: "BROADBACK & RE:FLEX PRESENT: A HISTORY OF UK GARAGE '97 - TODAY", genre: "UK Garage" },
+                    { time: "19:30-22:30", artist: "GOLDEN ENGLISH PARTY 英語金曲舞廳盛宴", genre: "Dance" }
+                ],
+                "Topper Stage": [
+                    { time: "12:00-12:45", artist: "MACK THE KNIFE", genre: "Electronic" },
+                    { time: "12:55-13:45", artist: "PINCH", genre: "Electronic" },
+                    { time: "14:30-15:15", artist: "O-MORI", genre: "Electronic" },
+                    { time: "16:00-16:45", artist: "DIVYA RAO", genre: "Electronic" },
+                    { time: "17:30-18:15", artist: "NOT A DISCO (DJ PASSION / PAUL MICHAEL)", genre: "Electronic" },
+                    { time: "19:00-20:00", artist: "NEENO", genre: "Electronic" },
+                    { time: "21:00-21:45", artist: "ANIL AHUJA", genre: "Electronic" }
+                ]
+            },
+            sunday: {
+                "Harbourflap Stage": [
+                    { time: "13:45-14:30", artist: "MISI KE 柯泯薰", genre: "Pop" },
+                    { time: "15:15-16:00", artist: "VIOLETTE WAUTIER", genre: "Pop" },
+                    { time: "16:45-17:45", artist: "IBRAHIM MAALOUF", genre: "Jazz" },
+                    { time: "18:30-19:15", artist: "YAMA", genre: "J-pop" },
+                    { time: "20:00-21:00", artist: "GLASS ANIMALS", genre: "Alternative" },
+                    { time: "21:45-23:00", artist: "JACK WHITE", genre: "Rock" }
+                ],
+                "Hang Seng Stage": [
+                    { time: "13:15-14:00", artist: "JEROLD & FRIENDS", genre: "Pop" },
+                    { time: "14:45-15:30", artist: "JADE", genre: "Pop" },
+                    { time: "16:15-17:00", artist: "YIN YIN", genre: "Psychedelic" },
+                    { time: "17:45-18:30", artist: "GIGANTIC ROAR 巨大的暴吼", genre: "Rock" },
+                    { time: "19:15-20:15", artist: "TOE", genre: "Math Rock" },
+                    { time: "21:00-22:15", artist: "JAMIE XX", genre: "Electronic" }
+                ],
+                "Park Stage": [
+                    { time: "12:45-13:30", artist: "YROCK PRESENTS: CERAMIC, THE SPECS", genre: "Rock" },
+                    { time: "14:15-15:00", artist: "THE AFROSEAS", genre: "World" },
+                    { time: "15:45-16:30", artist: "HEAVY HK SOUND WITH AWA FALL, MOUSEFX, JADO", genre: "Electronic" },
+                    { time: "17:15-18:00", artist: "ENA MORI", genre: "Pop" },
+                    { time: "18:45-19:30", artist: "WISP", genre: "Electronic" },
+                    { time: "20:15-21:00", artist: "FAZI 法兹", genre: "Post-punk" },
+                    { time: "21:45-22:45", artist: "AN ID SIGNAL 信号源", genre: "Electronic" }
+                ],
+                "Electriq Stage": [
+                    { time: "17:00-18:00", artist: "S2 COLLECTIVE", genre: "Electronic" },
+                    { time: "18:00-19:30", artist: "CAMI LAYÉ OKÚN", genre: "World" },
+                    { time: "19:30-21:00", artist: "Y U QT", genre: "Electronic" },
+                    { time: "21:00-22:30", artist: "YUNG SINGH", genre: "Electronic" }
+                ],
+                "Robot Stage": [
+                    { time: "17:45-20:00", artist: "ROBOT PRESENTS SPIDER GUBBINS", genre: "Electronic" },
+                    { time: "20:00-21:00", artist: "YIANNIS", genre: "Electronic" },
+                    { time: "21:00-22:30", artist: "GET GROOVY PRESENTS HELLER & JWKW", genre: "Electronic" }
+                ],
+                "Topper Stage": [
+                    { time: "13:00-13:45", artist: "BRAHMS", genre: "Electronic" },
+                    { time: "14:30-15:15", artist: "CELESTIAL SOUND SYSTEM, FEATURING: DR. TURKEY & HANK PECKHAM", genre: "Electronic" },
+                    { time: "16:00-16:45", artist: "STEVEN LEE PRESENTS NATIVE SOUNDS", genre: "Electronic" },
+                    { time: "17:45-18:30", artist: "DJ KULU", genre: "Electronic" },
+                    { time: "19:15-20:00", artist: "CASAMUSICA", genre: "Electronic" },
+                    { time: "21:00-21:45", artist: "DJ TAKAPRINCIPAL", genre: "Electronic" }
+                ]
+            }
+        };
+
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('clock').textContent = timeString;
+        }
+
+        function createDaySchedule(dayData, container) {
+            for (const [stage, performances] of Object.entries(dayData)) {
+                const stageSection = document.createElement('div');
+                stageSection.className = 'stage-section';
+                stageSection.setAttribute('data-stage', stage);
+
+                const stageHeader = document.createElement('div');
+                stageHeader.className = 'stage-header';
+                stageHeader.innerHTML = `
+                    <span>${stage}</span>
+                    <span class="toggle-icon">+</span>
+                `;
+
+                const stageContent = document.createElement('div');
+                stageContent.className = 'stage-content';
+
+                performances.forEach(performance => {
+                    const perfDiv = document.createElement('div');
+                    perfDiv.className = 'performance';
+                    perfDiv.innerHTML = `
+                        <span class="time">${performance.time}</span>
+                        <span class="artist">
+                            ${performance.artist}
+                            <span class="genre">${performance.genre}</span>
+                        </span>
+                    `;
+                    stageContent.appendChild(perfDiv);
+                });
+
+                stageSection.appendChild(stageHeader);
+                stageSection.appendChild(stageContent);
+                container.appendChild(stageSection);
+
+                stageHeader.addEventListener('click', () => {
+                    stageContent.classList.toggle('active');
+                    stageHeader.querySelector('.toggle-icon').textContent = 
+                        stageContent.classList.contains('active') ? '-' : '+';
+                });
+            }
+        }
+
+        // Initialize schedules
+        for (const day of ['friday', 'saturday', 'sunday']) {
+            createDaySchedule(scheduleData[day], document.getElementById(day));
+        }
+
+        // Date navigation
+        document.querySelectorAll('.date-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.date-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                document.querySelectorAll('.day-schedule').forEach(schedule => {
+                    schedule.classList.remove('active');
+                });
+                document.getElementById(button.dataset.day).classList.add('active');
+            });
+        });
+
+        // Start clock
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>

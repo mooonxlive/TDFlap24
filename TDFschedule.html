@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDF's Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #1DB954;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            background: #1ed760;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1DB954;
+            margin-bottom: 30px;
+        }
+
+        .next-up {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            font-size: 0.9em;
+        }
+
+        .countdown {
+            display: block;
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1DB954;
+            margin-top: 10px;
+        }
+
+        .date-header {
+            background: #333;
+            color: white;
+            padding: 15px;
+            margin: 30px 0 20px 0;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-left: 5px solid #1DB954;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .event {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            transition: opacity 0.5s ease;
+        }
+
+        .event.past {
+            opacity: 0.5;
+        }
+
+        .event[data-stage="HANG SENG STAGE"] {
+            background: #FFB6C1;
+        }
+
+        .event[data-stage="ROBOT STAGE"] {
+            background: #DDA0DD;
+        }
+
+        .event[data-stage="ELECTRIQ STAGE"] {
+            background: #87CEEB;
+        }
+
+        .event[data-stage="HARBOURFLAP STAGE"] {
+            background: #FFA07A;
+        }
+
+        .event[data-stage="PARK STAGE BY MARTELL"] {
+            background: #98FB98;
+        }
+
+        .time {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .artist {
+            font-size: 1.2em;
+            margin: 5px 0;
+            color: #000;
+        }
+
+        .genre {
+            color: #444;
+            font-style: italic;
+        }
+
+        .stage {
+            color: #333;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .country {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+        </svg>
+        Back
+    </a>
+
+    <h1>TDF's Schedule</h1>
+    <div class="next-up">Next up: Loading...</div>
+
+    <div class="date-header">FRIDAY, NOVEMBER 29, 2024</div>
+    
+    <div class="event" data-stage="PARK STAGE BY MARTELL">
+        <div class="time">17:30-18:15</div>
+        <div class="artist">Biascut <span class="country">HK</span></div>
+        <div class="genre">Strokes indie</div>
+        <div class="stage">PARK STAGE BY MARTELL</div>
+    </div>
+
+    <div class="event" data-stage="HANG SENG STAGE">
+        <div class="time">19:45-20:45</div>
+        <div class="artist">Deca Joins <span class="country">TW</span></div>
+        <div class="genre">Psy-indie</div>
+        <div class="stage">HANG SENG STAGE</div>
+    </div>
+
+    <div class="event" data-stage="PARK STAGE BY MARTELL">
+        <div class="time">20:15-21:00</div>
+        <div class="artist">Hiperson <span class="country">CN</span></div>
+        <div class="genre">Post-punk</div>
+        <div class="stage">PARK STAGE BY MARTELL</div>
+    </div>
+
+    <div class="event" data-stage="HARBOURFLAP STAGE">
+        <div class="time">21:30-22:45</div>
+        <div class="artist">Air <span class="country">FR</span></div>
+        <div class="genre">Air</div>
+        <div class="stage">HARBOURFLAP STAGE</div>
+    </div>
+
+    <div class="date-header">SATURDAY, NOVEMBER 30, 2024</div>
+
+    <div class="event" data-stage="HANG SENG STAGE">
+        <div class="time">14:30-15:15</div>
+        <div class="artist">Memi <span class="country">KR</span></div>
+        <div class="genre">Riff pop</div>
+        <div class="stage">HANG SENG STAGE</div>
+    </div>
+
+    <div class="event" data-stage="HANG SENG STAGE">
+        <div class="time">16:00-16:45</div>
+        <div class="artist">Turtle Island <span class="country">JP</span></div>
+        <div class="genre">Taiko punk</div>
+        <div class="stage">HANG SENG STAGE</div>
+    </div>
+
+    <div class="event" data-stage="PARK STAGE BY MARTELL">
+        <div class="time">17:00-17:45</div>
+        <div class="artist">Fat Dog <span class="country">UK</span></div>
+        <div class="genre">Idles meets Underworld</div>
+        <div class="stage">PARK STAGE BY MARTELL</div>
+    </div>
+
+    <div class="event" data-stage="HANG SENG STAGE">
+        <div class="time">17:30-18:15</div>
+        <div class="artist">Fiji Blue <span class="country">US</span></div>
+        <div class="genre">Bedroom-FI</div>
+        <div class="stage">HANG SENG STAGE</div>
+    </div>
+
+    <div class="event" data-stage="ROBOT STAGE">
+        <div class="time">17:45-19:30</div>
+        <div class="artist">Broadback & Re:Flex <span class="country">HK</span></div>
+        <div class="genre">UK Garage anthology</div>
+        <div class="stage">ROBOT STAGE</div>
+    </div>
+
+    <div class="event" data-stage="ELECTRIQ STAGE">
+        <div class="time">19:30-21:00</div>
+        <div class="artist">Sim0ne <span class="country">UK</span></div>
+        <div class="genre">Dance/Techno</div>
+        <div class="stage">ELECTRIQ STAGE</div>
+    </div>
+
+    <div class="event" data-stage="HARBOURFLAP STAGE">
+        <div class="time">20:00-21:00</div>
+        <div class="artist">St Vincent <span class="country">US</span></div>
+        <div class="genre">Alt Rock</div>
+        <div class="stage">HARBOURFLAP STAGE</div>
+    </div>
+
+    <div class="date-header">SUNDAY, DECEMBER 1, 2024</div>
+
+    <div class="event" data-stage="HANG SENG STAGE">
+        <div class="time">16:15-17:00</div>
+        <div class="artist">Yin Yin <span class="country">NL</span></div>
+        <div class="genre">Riff Psych</div>
+        <div class="stage">HANG SENG STAGE</div>
+    </div>
+
+    <div class="event" data-stage="HARBOURFLAP STAGE">
+        <div class="time">16:45-17:45</div>
+        <div class="artist">Ibrahim Maalouf <span class="country">LEB</span></div>
+        <div class="genre">Trumpet Psych</div>
+        <div class="stage">HARBOURFLAP STAGE</div>
+    </div>
+
+    <div class="event" data-stage="ELECTRIQ STAGE">
+        <div class="time">18:00-19:30</div>
+        <div class="artist">Cami Layé Okún <span class="country">CU</span></div>
+        <div class="genre">Cuban Groove</div>
+        <div class="stage">ELECTRIQ STAGE</div>
+    </div>
+
+    <div class="event" data-stage="HANG SENG STAGE">
+        <div class="time">19:15-20:15</div>
+        <div class="artist">Toe <span class="country">JP</span></div>
+        <div class="genre">Math Gods</div>
+        <div class="stage">HANG SENG STAGE</div>
+    </div>
+
+    <div class="event" data-stage="HARBOURFLAP STAGE">
+        <div class="time">20:00-21:00</div>
+        <div class="artist">Glass Animals <span class="country">UK</span></div>
+        <div class="genre">Pop</div>
+        <div class="stage">HARBOURFLAP STAGE</div>
+    </div>
+
+    <div class="event" data-stage="HANG SENG STAGE">
+        <div class="time">21:00-22:15</div>
+        <div class="artist">Jamie XX <span class="country">UK</span></div>
+        <div class="genre">Dance Legend</div>
+        <div class="stage">HANG SENG STAGE</div>
+    </div>
+
+    <div class="event" data-stage="HARBOURFLAP STAGE">
+        <div class="time">21:45-23:00</div>
+        <div class="artist">Jack White <span class="country">US</span></div>
+        <div class="genre">Garage Blues Rock</div>
+        <div class="stage">HARBOURFLAP STAGE</div>
+    </div>
+
+    <script>
+        function parseTime(timeStr, dateStr) {
+            const [hours, minutes] = timeStr.split(':').map(num => parseInt(num));
+            const date = new Date(dateStr);
+            date.setHours(hours, minutes, 0, 0);
+            return date;
+        }
+
+        function formatTimeRemaining(ms) {
+            if (ms < 0) return "00:00:00";
+            const hours = Math.floor(ms / 3600000);
+            const minutes = Math.floor((ms % 3600000) / 60000);
+            const seconds = Math.floor((ms % 60000) / 1000);
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function updateSchedule() {
+            const now = new Date();
+            const events = document.querySelectorAll('.event');
+            let nextEvent = null;
+            let smallestDiff = Infinity;
+
+            events.forEach(event => {
+                const timeText = event.querySelector('.time').textContent;
+                const dateHeader = event.previousElementSibling;
+                let dateStr = '';
+                
+                let currentElement = event;
+                while (currentElement) {
+                    if (currentElement.classList.contains('date-header')) {
+                        dateStr = currentElement.textContent;
+                        break;
+                    }
+                    currentElement = currentElement.previousElementSibling;
+                }
+
+                const [startTime, endTime] = timeText.split('-');
+                const startDate = parseTime(startTime, dateStr);
+                const endDate = parseTime(endTime, dateStr);
+
+                const removeTime = new Date(startDate.getTime() + 30 * 60000);
+
+                if (now > removeTime) {
+                    event.classList.add('past');
+                } else {
+                    event.classList.remove('past');
+                }
+
+                const timeDiff = startDate.getTime() - now.getTime();
+                if (timeDiff > -600000 && timeDiff < smallestDiff) {
+                    smallestDiff = timeDiff;
+                    nextEvent = event;
+                }
+            });
+
+            const nextUpDiv = document.querySelector('.next-up');
+            if (nextEvent) {
+                const timeText = nextEvent.querySelector('.time').textContent;
+                const artistText = nextEvent.querySelector('.artist').textContent;
+                const stageText = nextEvent.querySelector('.stage').textContent;
+                
+                let currentElement = nextEvent;
+                let dateStr = '';
+                while (currentElement) {
+                    if (currentElement.classList.contains('date-header')) {
+                        dateStr = currentElement.textContent;
+                        break;
+                    }
+                    currentElement = currentElement.previousElementSibling;
+                }
+                
+                const startTime = parseTime(timeText.split('-')[0], dateStr);
+                const timeRemaining = startTime.getTime() - now.getTime();
+                
+                nextUpDiv.innerHTML = `${artistText} at ${timeText} (${stageText})<br><span class="countdown">${formatTimeRemaining(timeRemaining)}</span>`;
+            } else {
+                nextUpDiv.textContent = "No upcoming events";
+            }
+        }
+
+        setInterval(updateSchedule, 1000);
+        updateSchedule();
+    </script>
+</body>
+</html>
