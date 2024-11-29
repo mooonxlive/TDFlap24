@@ -207,38 +207,63 @@
         <div class="day-schedule" id="sunday"></div>
     </div>
 <script>
-        // Start clock
-        function updateClock() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { 
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
+    const scheduleData = {
+        // ... (scheduleData remains the same)
+    };
+
+    // Clock functionality
+    function updateClock() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('en-US', { 
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+        document.getElementById('clock').textContent = timeString;
+    }
+
+    // Set initial active tab based on current date
+    function setInitialActiveTab() {
+        const now = new Date();
+        const day = now.getDay(); // 0 = Sunday, 5 = Friday, 6 = Saturday
+        
+        let activeDay;
+        if (day === 5) activeDay = 'friday';
+        else if (day === 6) activeDay = 'saturday';
+        else if (day === 0) activeDay = 'sunday';
+        else activeDay = 'friday'; // Default to Friday for any other day
+        
+        document.querySelector(`.date-btn[data-day="${activeDay}"]`).classList.add('active');
+        document.getElementById(activeDay).classList.add('active');
+    }
+
+    function createDaySchedule(dayData, container) {
+        // ... (createDaySchedule function remains the same)
+    }
+
+    // Initialize schedules
+    for (const day of ['friday', 'saturday', 'sunday']) {
+        createDaySchedule(scheduleData[day], document.getElementById(day));
+    }
+
+    // Date navigation
+    document.querySelectorAll('.date-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelectorAll('.date-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            document.querySelectorAll('.day-schedule').forEach(schedule => {
+                schedule.classList.remove('active');
             });
-            document.getElementById('clock').textContent = timeString;
-        }
+            document.getElementById(button.dataset.day).classList.add('active');
+        });
+    });
 
-        updateClock();
-        setInterval(updateClock, 1000);
-
-        // Set initial active tab based on current date
-        function setInitialActiveTab() {
-            const now = new Date();
-            const day = now.getDay(); // 0 = Sunday, 5 = Friday, 6 = Saturday
-            
-            let activeDay;
-            if (day === 5) activeDay = 'friday';
-            else if (day === 6) activeDay = 'saturday';
-            else if (day === 0) activeDay = 'sunday';
-            else activeDay = 'friday'; // Default to Friday for any other day
-            
-            document.querySelector(`.date-btn[data-day="${activeDay}"]`).classList.add('active');
-            document.getElementById(activeDay).classList.add('active');
-        }
-
-        setInitialActiveTab();
-    <script>
+    // Initialize clock and active tab
+    updateClock();
+    setInterval(updateClock, 1000);
+    setInitialActiveTab();
         const scheduleData = {
             friday: {
                 "Harbourflap Stage": [
